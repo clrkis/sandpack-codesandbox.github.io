@@ -1,0 +1,16 @@
+async with (
+    mothership.run(model, mothership_messages) as mothership_stream,
+    data_centers.run(model, data_center_messages) as data_center_stream,
+):
+    mothership_text, data_center_text = await asyncio.gather(
+        ai.yield_from(
+            mothership_stream,
+            label="mothership",
+            aggregator=ai.agents.MessageAggregator,
+        ),
+        ai.yield_from(
+            data_center_stream,
+            label="data_centers",
+            aggregator=ai.agents.MessageAggregator,
+        ),
+    )
