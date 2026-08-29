@@ -13,6 +13,7 @@
     "@codesandbox/sandpack-react": "*",
     "@codesandbox/sandpack-themes": "*",
     "@stitches/react": "^1.2.5",
+    "@vercel/analytics": "^2.0.1",
     "amplitude-js": "^8.13.0",
     "eslint-config-next": "^14.0.0",
     "framer-motion": "^5.3.2",

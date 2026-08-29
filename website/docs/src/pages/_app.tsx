@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Analytics } from "@vercel/analytics/next";
 import amplitude from "amplitude-js";
 import { useEffect } from "react";
 import "codesandbox-theme-docs/style.css";
@@ -20,5 +21,10 @@ export default function Nextra({ Component, pageProps }): any {
     });
   }, []);
 
-  return getLayout(<Component {...pageProps} />);
+  return (
+    <>
+      {getLayout(<Component {...pageProps} />)}
+      <Analytics />
+    </>
+  );
 }
