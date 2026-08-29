@@ -1,0 +1,26 @@
+import ai
+import pytest
+@ai.tool
+async def get_weather(city: str) -> str:
+    """Get the weather for a city."""
+    return "Sunny"
+@pytest.mark.asyncio
+async def test_weather_agent() -> None:
+    tool_call = ai.testing.tool_call(get_weather, city="San Francisco")
+    model = ai.testing.FakeModel(
+        [
+            ai.user_message("What is the weather in San Francisco?"),
+            ai.assistant_message("I will check.", tool_call),
+            ai.assistant_message("It is sunny in San Francisco."),
+        ]
+    )
+    agent = ai.Agent(tools=[get_weather])
+    async with agent.run(
+        model,
+        [ai.user_message("What is the weather in San Francisco?")],
+    ) as stream:
+        async for _event in stream:
+            pass
+    assert stream.output == "It is sunny in San Francisco."
+    assert len(model.calls) == 2
+    assert not model.unused
