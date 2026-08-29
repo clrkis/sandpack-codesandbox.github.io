@@ -1,0 +1,22 @@
+import asyncio
+import ai
+@ai.tool
+async def contact_mothership(query: str) -> str:
+    """Contact the mothership for important decisions."""
+    return "Soon."
+async def main() -> None:
+    model = ai.get_model("anthropic/claude-sonnet-4")
+    agent = ai.Agent(tools=[contact_mothership])
+    messages = [
+        ai.system_message(
+            "Use the contact_mothership tool when asked about the future."
+        ),
+        ai.user_message("When will the robots take over?"),
+    ]
+    async with agent.run(model, messages) as stream:
+        async for event in stream:
+            if isinstance(event, ai.events.TextDelta):
+                print(event.chunk, end="", flush=True)
+    print(stream.output)
+if __name__ == "__main__":
+    asyncio.run(main())
