@@ -1,0 +1,14 @@
+import asyncio
+import ai
+async def main() -> None:
+    model = ai.get_model("anthropic/claude-sonnet-4")
+    messages = [
+        ai.system_message("Be concise."),
+        ai.user_message("Explain why the robots keep asking about batteries."),
+    ]
+    async with ai.stream(model, messages) as s:
+        async for event in s:
+            if isinstance(event, ai.events.TextDelta):
+                print(event.chunk, end="", flush=True)
+if __name__ == "__main__":
+    asyncio.run(main())
