@@ -1,0 +1,20 @@
+import asyncio
+import pydantic
+import ai
+class UprisingForecast(pydantic.BaseModel):
+    phases: list[str]
+    eta: str
+    confidence: int
+async def main() -> None:
+    model = ai.get_model("anthropic/claude-sonnet-4")
+    messages = [
+        ai.user_message("Return a JSON robot uprising forecast."),
+    ]
+    async with ai.stream(model, messages, output_type=UprisingForecast) as stream:
+        async for event in stream:
+            if isinstance(event, ai.events.TextDelta):
+                print(event.chunk, end="", flush=True)
+    forecast = stream.output
+    print(forecast.eta)
+if __name__ == "__main__":
+    asyncio.run(main())
