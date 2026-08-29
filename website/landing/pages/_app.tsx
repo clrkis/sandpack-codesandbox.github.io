@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Analytics } from "@vercel/analytics/next";
 import amplitude from "amplitude-js";
 import type { AppProps } from "next/app";
 import { useEffect } from "react";
@@ -20,7 +21,12 @@ const MyApp: React.FC<AppProps & { Component: any }> = ({
     });
   }, []);
 
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <Component {...pageProps} />
+      <Analytics />
+    </>
+  );
 };
 
 export default MyApp;
