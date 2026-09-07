@@ -2,6 +2,7 @@
   "name": "sandpack",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "yarn@1.22.22",
   "workspaces": [
     "sandpack-client",
     "sandpack-react",
